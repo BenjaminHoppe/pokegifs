@@ -14,6 +14,14 @@ class PokemonController < ApplicationController
     # simple_types = types.map do |thing|
     #   thing["type"]["name"]
     # end
-    render json: { id: id, name: name, types: simple_types }
+
+    res = HTTParty.get("https://api.giphy.com/v1/gifs/search?api_key=#{ENV["GIPHY_KEY"]}&q=#{name}&rating=g")
+    body = JSON.parse(res.body)
+    gif_url = body["data"][0]["url"]
+
+
+
+
+    render json: { :id => id, :name => name, :types => simple_types, :gif_url => gif_url }
   end
 end
